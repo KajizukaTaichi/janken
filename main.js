@@ -64,16 +64,11 @@ async function judge(userHandId, reimuHandId) {
 }
 
 async function modalHand(reimuHand) {
-    console.log("modalHand start");
     modal.textContent = Hand[reimuHand];
     modal.style.display = "block";
     document.body.classList.add("modal-open");
-    console.log("modal shown, waiting for click...");
 
-    await forEvent(document, "click");
-
-    console.log("modalHand click detected, hiding modal");
+    await forEvent(modal, "click");
     modal.style.display = "none";
     document.body.classList.remove("modal-open");
-    console.log("modalHand end");
 }
