@@ -11,14 +11,15 @@ body {
     }
 }
 
+#active-button {
+    background-color: grey;
+    box-shadow: 4px 4px black;
+}
+
 button {
     &:hover {
         background-color: lightgray;
         box-shadow: 4px 4px grey;
-    }
-    &:active {
-        background-color: grey;
-        box-shadow: 4px 4px black;
     }
 }
 
