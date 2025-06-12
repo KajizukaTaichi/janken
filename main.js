@@ -85,7 +85,7 @@ async function judge(userHandId, reimuHandId) {
         img.src = "static/reimu_sad.jpg";
     } else {
         result.textContent = "あいこ";
-        img.src = "static/reimu_normal.jpg";
+        img.src = "static/reimu_scare.jpg";
     }
 }
 
