@@ -1,3 +1,5 @@
+let isAfterTake = false;
+
 const Hand = {
     Rock: "✊",
     Paper: "✋",
@@ -33,10 +35,19 @@ const forEvent = (target, eventType) =>
     });
 
 async function play(userHandId) {
-    const reimuHandId = Object.keys(Hand)[Math.floor(Math.random() * 3)];
-    await modalHand(reimuHandId);
-    showHand(userHandId, reimuHandId);
-    await judge(userHandId, reimuHandId);
+    if (isAfterTake) {
+        img.src = "static/reimu_sad.jpg";
+        result.style.display = "block";
+        modal.style.display = "none";
+        result.textContent = "後出しズルいよ 💢";
+    } else {
+        isAfterTake = true;
+        const reimuHandId = Object.keys(Hand)[Math.floor(Math.random() * 3)];
+        await modalHand(reimuHandId);
+        showHand(userHandId, reimuHandId);
+        await judge(userHandId, reimuHandId);
+    }
+    isAfterTake = false;
 }
 
 function showHand(userHandId, reimuHandId) {
@@ -68,6 +79,7 @@ async function judge(userHandId, reimuHandId) {
 }
 
 async function modalHand(reimuHand) {
+    result.style.display = "none";
     modal.textContent = Hand[reimuHand];
     modal.style.display = "block";
     document.body.classList.add("modal-open");
