@@ -36,11 +36,9 @@ const forEvent = (target, eventType) =>
 
 async function play(userHandId) {
     if (isAfterTake) {
-        img.src = "static/reimu_sad.jpg";
-        result.style.display = "block";
-        modal.style.display = "none";
-        result.textContent = "後出しズルいよ 💢";
+        afterTakeHandle();
     } else {
+        resetGame();
         isAfterTake = true;
         const reimuHandId = Object.keys(Hand)[Math.floor(Math.random() * 3)];
         await modalHand(reimuHandId);
@@ -50,6 +48,30 @@ async function play(userHandId) {
     isAfterTake = false;
 }
 
+function a() {
+    const buttons = document.querySelectorAll("button");
+    for (i of buttons) {
+        i.addEventListener("click", () => {
+            for (j of buttons) j.id = "";
+            i.id = "active-button";
+        });
+    }
+}
+
+function resetGame() {
+    result.textContent = "";
+    result.style.display = "none";
+    showArea.style.display = "none";
+    img.src = "static/reimu_normal.jpg";
+}
+
+function afterTakeHandle() {
+    img.src = "static/reimu_angry.jpg";
+    result.style.display = "block";
+    modal.style.display = "none";
+    result.textContent = "後出しズルいよ 💢";
+}
+
 function showHand(userHandId, reimuHandId) {
     showArea.style.display = "block";
     showArea.textContent = `${Hand[userHandId]} vs ${Hand[reimuHandId]}`;
@@ -57,8 +79,6 @@ function showHand(userHandId, reimuHandId) {
 
 async function judge(userHandId, reimuHandId) {
     result.style.display = "block";
-    panel.style.pointerEvents = "none";
-
     if (isWin([reimuHandId, userHandId])) {
         result.textContent = "私の勝ち!";
         img.src = "static/reimu_happy.jpg";
@@ -69,22 +89,12 @@ async function judge(userHandId, reimuHandId) {
         result.textContent = "あいこ";
         img.src = "static/reimu_normal.jpg";
     }
-
-    await forEvent(result, "click");
-    result.textContent = "";
-    result.style.display = "none";
-    showArea.style.display = "none";
-    panel.style.pointerEvents = "initial";
-    img.src = "static/reimu_normal.jpg";
 }
 
 async function modalHand(reimuHand) {
     result.style.display = "none";
     modal.textContent = Hand[reimuHand];
     modal.style.display = "block";
-    document.body.classList.add("modal-open");
-
     await forEvent(modal, "click");
     modal.style.display = "none";
-    document.body.classList.remove("modal-open");
 }
