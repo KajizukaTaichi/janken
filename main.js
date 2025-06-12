@@ -1,4 +1,6 @@
 let isAfterTake = false;
+let userHandId = null;
+let reimuHandId = null;
 
 const Hand = {
     Rock: "✊",
@@ -34,14 +36,15 @@ const forEvent = (target, eventType) =>
         target.addEventListener(eventType, handler);
     });
 
-async function play(userHandId) {
-    changePanelColor();
+async function play(userHand) {
+    userHandId = userHand;
     if (isAfterTake) {
+        showHand(userHandId);
         afterTakeHandle();
     } else {
         resetGame();
         isAfterTake = true;
-        const reimuHandId = Object.keys(Hand)[Math.floor(Math.random() * 3)];
+        reimuHandId = Object.keys(Hand)[Math.floor(Math.random() * 3)];
         showHand(userHandId, reimuHandId);
         await modalHand(reimuHandId);
         await judge(userHandId, reimuHandId);
@@ -63,12 +66,12 @@ function afterTakeHandle() {
     result.textContent = "後出しはズルいよ 💢";
 }
 
-function showHand(userHandId, reimuHandId) {
+function showHand() {
     showArea.style.display = "block";
     showArea.textContent = `${Hand[userHandId]} vs ${Hand[reimuHandId]}`;
 }
 
-async function judge(userHandId, reimuHandId) {
+async function judge() {
     result.style.display = "block";
     if (isWin([reimuHandId, userHandId])) {
         result.textContent = "私の勝ち!";
@@ -82,9 +85,9 @@ async function judge(userHandId, reimuHandId) {
     }
 }
 
-async function modalHand(reimuHand) {
+async function modalHand() {
     result.style.display = "none";
-    modal.textContent = Hand[reimuHand];
+    modal.textContent = Hand[reimuHandId];
     modal.style.display = "block";
     await forEvent(modal, "click");
     modal.style.display = "none";
