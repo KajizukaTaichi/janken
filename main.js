@@ -59,8 +59,7 @@ async function judge(userHandId, reimuHandId) {
         img.src = "static/reimu_normal.jpg";
     }
 
-    await forEvent(document, "keydown");
-    console.log("judge: click detected, resetting UI");
+    await forEvent(result, "click");
 
     result.textContent = "";
     result.style.display = "none";
