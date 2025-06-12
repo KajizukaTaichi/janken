@@ -60,7 +60,6 @@ async function judge(userHandId, reimuHandId) {
     }
 
     await forEvent(result, "click");
-
     result.textContent = "";
     result.style.display = "none";
     showArea.style.display = "none";
