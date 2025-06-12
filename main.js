@@ -25,17 +25,21 @@ const isWin = (target) =>
 
 const forEvent = (target, eventType) =>
     new Promise((resolve) => {
-        target.addEventListener(eventType, resolve, { once: true });
+        const handler = (e) => {
+            target.removeEventListener(eventType, handler);
+            resolve(e);
+        };
+        target.addEventListener(eventType, handler);
     });
 
 async function play(userHandId) {
     const reimuHandId = Object.keys(Hand)[Math.floor(Math.random() * 3)];
     await modalHand(reimuHandId);
-    await showHand(userHandId, reimuHandId);
+    showHand(userHandId, reimuHandId);
     await judge(userHandId, reimuHandId);
 }
 
-async function showHand(userHandId, reimuHandId) {
+function showHand(userHandId, reimuHandId) {
     showArea.style.display = "block";
     showArea.textContent = `${Hand[userHandId]} vs ${Hand[reimuHandId]}`;
 }
@@ -55,7 +59,9 @@ async function judge(userHandId, reimuHandId) {
         img.src = "static/reimu_normal.jpg";
     }
 
-    await forEvent(document, "click");
+    await forEvent(document, "keydown");
+    console.log("judge: click detected, resetting UI");
+
     result.textContent = "";
     result.style.display = "none";
     showArea.style.display = "none";
