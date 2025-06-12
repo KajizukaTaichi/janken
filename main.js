@@ -16,6 +16,18 @@ const img = document.getElementById("reimu-img");
 const panel = document.getElementById("panel");
 const modal = document.getElementById("modal");
 
+const isWin = (target) =>
+    win_case.some(
+        (sub) =>
+            sub.length === target.length &&
+            sub.every((val, i) => val === target[i]),
+    );
+
+const forEvent = (target, eventType) =>
+    new Promise((resolve) => {
+        target.addEventListener(eventType, resolve, { once: true });
+    });
+
 async function play(userHandId) {
     const reimuHandId = Object.keys(Hand)[Math.floor(Math.random() * 3)];
     await modalHand(reimuHandId);
@@ -43,39 +55,25 @@ async function judge(userHandId, reimuHandId) {
         img.src = "static/reimu_normal.jpg";
     }
 
-    const resetGame = () => {
-        result.textContent = "";
-        result.style.display = "none";
-        showArea.style.display = "none";
-        panel.style.pointerEvents = "initial";
-        img.src = "static/reimu_normal.jpg";
-        document.removeEventListener("click", resetGame);
-    };
-    document.addEventListener("click", resetGame);
+    await forEvent(document, "click");
+    result.textContent = "";
+    result.style.display = "none";
+    showArea.style.display = "none";
+    panel.style.pointerEvents = "initial";
+    img.src = "static/reimu_normal.jpg";
 }
 
 async function modalHand(reimuHand) {
-    const openModal = () => {
-        modal.style.display = "block";
-        document.body.classList.add("modal-open");
-    };
+    console.log("modalHand start");
     modal.textContent = Hand[reimuHand];
+    modal.style.display = "block";
+    document.body.classList.add("modal-open");
+    console.log("modal shown, waiting for click...");
 
-    const closeModal = () => {
-        modal.style.display = "none";
-        document.body.classList.remove("modal-open");
-        document.removeEventListener("click", closeModal);
-    };
-    document.addEventListener("click", closeModal);
+    await forEvent(document, "click");
 
-    openModal();
+    console.log("modalHand click detected, hiding modal");
+    modal.style.display = "none";
+    document.body.classList.remove("modal-open");
+    console.log("modalHand end");
 }
-
-const isWin = (target) =>
-    win_case.some(
-        (sub) =>
-            sub.length === target.length &&
-            sub.every((val, i) => val === target[i]),
-    );
-
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
