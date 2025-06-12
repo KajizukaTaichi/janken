@@ -43,12 +43,15 @@ async function judge(userHandId, reimuHandId) {
         img.src = "static/reimu_normal.jpg";
     }
 
-    await sleep(2000);
-    result.textContent = "";
-    result.style.display = "none";
-    showArea.style.display = "none";
-    panel.style.pointerEvents = "initial";
-    img.src = "static/reimu_normal.jpg";
+    const resetGame = () => {
+        result.textContent = "";
+        result.style.display = "none";
+        showArea.style.display = "none";
+        panel.style.pointerEvents = "initial";
+        img.src = "static/reimu_normal.jpg";
+        document.removeEventListener("click", resetGame);
+    };
+    document.addEventListener("click", resetGame);
 }
 
 async function modalHand(reimuHand) {
@@ -56,15 +59,16 @@ async function modalHand(reimuHand) {
         modal.style.display = "block";
         document.body.classList.add("modal-open");
     };
+    modal.textContent = Hand[reimuHand];
+
     const closeModal = () => {
         modal.style.display = "none";
         document.body.classList.remove("modal-open");
+        document.removeEventListener("click", closeModal);
     };
-    modal.textContent = Hand[reimuHand];
+    document.addEventListener("click", closeModal);
 
     openModal();
-    await sleep(1000);
-    closeModal();
 }
 
 const isWin = (target) =>
