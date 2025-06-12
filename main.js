@@ -49,13 +49,6 @@ async function play(userHandId) {
     isAfterTake = false;
 }
 
-function changePanelColor(userHandId) {
-    const buttons = document.querySelectorAll("button");
-    for (i of buttons) {
-        i.id = i.textContent == Hand[userHandId] ? "active-button" : "";
-    }
-}
-
 function resetGame() {
     result.textContent = "";
     result.style.display = "none";
