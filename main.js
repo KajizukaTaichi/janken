@@ -51,14 +51,6 @@ async function judge(userHandId, reimuHandId) {
     img.src = "static/reimu_normal.jpg";
 }
 
-function isWin(target) {
-    return win_case.some(
-        (sub) =>
-            sub.length === target.length &&
-            sub.every((val, i) => val === target[i]),
-    );
-}
-
 async function modalHand(reimuHand) {
     const openModal = () => {
         modal.style.display = "block";
@@ -74,5 +66,12 @@ async function modalHand(reimuHand) {
     await sleep(1000);
     closeModal();
 }
+
+const isWin = (target) =>
+    win_case.some(
+        (sub) =>
+            sub.length === target.length &&
+            sub.every((val, i) => val === target[i]),
+    );
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
