@@ -42,8 +42,8 @@ async function play(userHandId) {
         resetGame();
         isAfterTake = true;
         const reimuHandId = Object.keys(Hand)[Math.floor(Math.random() * 3)];
-        await modalHand(reimuHandId);
         showHand(userHandId, reimuHandId);
+        await modalHand(reimuHandId);
         await judge(userHandId, reimuHandId);
     }
     isAfterTake = false;
@@ -67,7 +67,7 @@ function afterTakeHandle() {
     img.src = "static/reimu_angry.jpg";
     result.style.display = "block";
     modal.style.display = "none";
-    result.textContent = "後出しズルいよ 💢";
+    result.textContent = "後出しはズルいよ 💢";
 }
 
 function showHand(userHandId, reimuHandId) {
