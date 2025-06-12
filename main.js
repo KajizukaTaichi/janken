@@ -35,6 +35,7 @@ const forEvent = (target, eventType) =>
     });
 
 async function play(userHandId) {
+    changePanelColor();
     if (isAfterTake) {
         afterTakeHandle();
     } else {
@@ -48,13 +49,10 @@ async function play(userHandId) {
     isAfterTake = false;
 }
 
-function a() {
+function changePanelColor(userHandId) {
     const buttons = document.querySelectorAll("button");
     for (i of buttons) {
-        i.addEventListener("click", () => {
-            for (j of buttons) j.id = "";
-            i.id = "active-button";
-        });
+        i.id = i.textContent == Hand[userHandId] ? "active-button" : "";
     }
 }
 
