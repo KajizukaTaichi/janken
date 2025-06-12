@@ -44,7 +44,7 @@ button {
     display: none;
     font-size: 30px;
     position: absolute;
-    top: 100px;
+    top: 200px;
     right: 500px;
     border-radius: 10px;
     border: 1px solid grey;
@@ -58,8 +58,8 @@ button {
 #modal {
     font-size: 300px;
     display: none;
-    left: 42%;
-    top: 30%;
+    right: 400px;
+    top: 100px;
     position: absolute;
     opacity: 1;
     &.modal-open {
